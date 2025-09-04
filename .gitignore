@@ -1,0 +1,44 @@
+# Gradle
+.gradle/
+build/
+!gradle-wrapper.jar
+
+# Android Studio
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+
+# Local properties (SDK path, API keys locales)
+local.properties
+
+# Keystore files (nunca subir claves privadas)
+*.keystore
+*.jks
+
+# Logs
+*.log
+
+# Generated files
+app/build/
+*/build/
+out/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Kotlin/Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Jetpack Compose previews
+*.cache
+
+# NDK
+.cxx/
+
+# Misc
+*.hprof
