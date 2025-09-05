@@ -1,0 +1,66 @@
+package com.sv.youapp.app.ui.login
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.sv.youapp.app.R
+
+@Composable
+fun LoginScreen() {
+    Column(Modifier.fillMaxSize()
+        .background(colorResource(id = R.color.background_color)),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally)
+    {
+        Image(
+            painterResource(R.drawable.ic_logo),
+            contentDescription = "LOGO",
+            modifier = Modifier.size(150.dp),
+            contentScale = ContentScale.Fit
+        )
+        Text(stringResource(R.string.bienvenida), style = MaterialTheme.typography.titleLarge,
+            color = colorResource(R.color.purple_text))
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = { /* TODO: login */ }) {
+            Text("Iniciar Sesion")
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Button(onClick = { /* TODO: login */ }) {
+            Text("Registrarse")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun PreviewLoginScreen() {
+    LoginScreen()
+}

@@ -1,5 +1,5 @@
 <resources>
-    <style name="Theme.YouApp" parent="android:Theme.Material.NoActionBar">
+    <style name="Theme.YouApp" parent="android:Theme.Material.NoActionBar.TranslucentDecor">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 </resources>
