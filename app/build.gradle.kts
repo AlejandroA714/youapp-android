@@ -45,14 +45,20 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     // Compose
     implementation(libs.androidx.compose.ui)
+    // Material (Xml, Compose)
+    implementation(libs.material)
     implementation(libs.androidx.compose.material3)
+    // Preview
     implementation(libs.androidx.compose.ui.tooling.preview)
+    // Debug Preview
     debugImplementation(libs.androidx.compose.ui.tooling)
+
     implementation(libs.androidx.activity.compose)
     // Opcional
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.core.splashscreen)
     // Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

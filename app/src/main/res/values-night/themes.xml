@@ -1,5 +1,8 @@
 <resources>
-    <style name="Theme.YouApp" parent="android:Theme.Material.NoActionBar.TranslucentDecor">
-        <item name="android:statusBarColor">@android:color/transparent</item>
+    <style name="Theme.YouApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
+    <style name="Theme.YouApp.Splash" parent="Theme.Material3.DayNight.NoActionBar">
     </style>
 </resources>
