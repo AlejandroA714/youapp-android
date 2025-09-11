@@ -1,5 +1,6 @@
 package com.sv.youapp.app.ui.login
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,10 +22,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sv.youapp.app.R
+import com.sv.youapp.app.test.TextEngine
 import com.sv.youapp.app.ui.GradientButton
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(onLoginClicked: () -> Unit) {
     Column(Modifier.fillMaxSize()
         .background(colorResource(id = R.color.background_color)),
         verticalArrangement = Arrangement.Center,
@@ -40,11 +42,14 @@ fun LoginScreen() {
             color = colorResource(R.color.purple_text))
         Spacer(modifier = Modifier.height(16.dp))
 
-        GradientButton("Iniciar Sesion") {}
+        GradientButton("Iniciar Sesion") {onLoginClicked()}
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Button(onClick = { }) {
+        Button(onClick = {
+            val ss: String = TextEngine().processFrom("HOLA MUNDO")
+            Log.i("LoginScreen","String from C ++ {ss}");
+        }) {
             Text("Registrarse")
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -54,5 +59,5 @@ fun LoginScreen() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewLoginScreen() {
-    LoginScreen()
+    LoginScreen({})
 }
