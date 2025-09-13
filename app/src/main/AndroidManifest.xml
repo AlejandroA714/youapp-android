@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.YouApp.Splash">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -21,7 +21,7 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="com.sv.youapp" android:host="oauth2"/>
+                <data android:scheme="youapp" android:host="oauth2"/>
             </intent-filter>
         </activity>
     </application>

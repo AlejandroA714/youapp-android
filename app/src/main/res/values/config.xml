@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="base_uri">http://192.168.1.24:8081</string>
+    <string name="oauth2_client">oidc-client</string>
+</resources>

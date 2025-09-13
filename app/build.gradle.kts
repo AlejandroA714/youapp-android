@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     // Preview
     implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.browser)
     // Debug Preview
     debugImplementation(libs.androidx.compose.ui.tooling)
 
@@ -67,8 +68,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.splashscreen)
-    //
-    implementation(libs.net.appauth)
     // Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

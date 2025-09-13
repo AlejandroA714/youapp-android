@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="auth_discovery_uri">https://377784edda1d.ngrok-free.app/.well-known/openid-configuration</string>
-    <string name="auth_client_id">oidc-client</string>
-    <string name="auth_redirect_uri">com.sv.youapp:/oauth2</string>
-    <string name="auth_scope">offline_access openid</string>
-</resources>
