@@ -1,5 +1,6 @@
 package com.sv.youapp.app.activities
 
+import android.annotation.SuppressLint
 import android.app.ComponentCaller
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -10,13 +11,29 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.core.content.edit
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.sv.youapp.app.R
 import com.sv.youapp.app.auth.AuthManager
 import com.sv.youapp.app.ui.login.LoginScreen
 import androidx.core.net.toUri
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
+import androidx.navigation.compose.rememberNavController
+import com.sv.youapp.app.ui.ColorDemoScreen
+import com.sv.youapp.app.ui.MainScaffold
+import com.sv.youapp.app.ui.home.Home
 
 class MainActivity: ComponentActivity() {
     private lateinit var authManager: AuthManager
@@ -30,13 +47,17 @@ class MainActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
         handleAuthDeepLink(intent)
         authManager = AuthManager(this)
+
         setContent {
-            MaterialTheme {
-                LoginScreen {
-                    openInBrowser(this)
-                }
+            val navController = rememberNavController()
+
+            NavHost(navController, startDestination = "home") {
+                composable("login") { LoginScreen{} }
+                composable("home") { MainScaffold { ColorDemoScreen() } }
+                composable("profile") { MainScaffold {  } }
+                composable("settings") { MainScaffold {  } }
             }
-        }
+        } // Content
     }
 
     override fun onNewIntent(intent: Intent, caller: ComponentCaller) {

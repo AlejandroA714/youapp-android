@@ -1,11 +1,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/background_color"/>
-    <item android:gravity="center">
-        <scale
-            android:drawable="@drawable/ic_logo"
-        android:scaleWidth="100%"
-        android:scaleHeight="100%"
-        android:useIntrinsicSizeAsMinimum="true"
-        android:scaleGravity="center"/>
-    </item>
+    <item android:drawable="@color/background"/>
+    <item
+        android:gravity="center"
+        android:drawable="@drawable/ic_logo"
+        android:width="224dp"
+        android:height="224dp"/>
 </layer-list>

@@ -1,19 +1,8 @@
 <resources>
     <style name="Theme.YouApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:windowNoTitle">true</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="windowActionBar">false</item>
-
-        <item name="android:statusBarColor">@color/background_color</item>
-
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:statusBarColor">@color/background</item>
     </style>
-
-    <style name="Theme.YouApp.Splash" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.YouApp.Splash" parent="Theme.SplashScreen">
         <item name="android:windowBackground">@drawable/ic_splay_layer</item>
     </style>
 </resources>

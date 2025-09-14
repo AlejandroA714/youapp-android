@@ -28,7 +28,7 @@ import com.sv.youapp.app.ui.GradientButton
 @Composable
 fun LoginScreen(onLoginClicked: () -> Unit) {
     Column(Modifier.fillMaxSize()
-        .background(colorResource(id = R.color.background_color)),
+        .background(colorResource(id = R.color.background)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally)
     {
@@ -59,5 +59,5 @@ fun LoginScreen(onLoginClicked: () -> Unit) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewLoginScreen() {
-    LoginScreen({})
+    LoginScreen {}
 }
