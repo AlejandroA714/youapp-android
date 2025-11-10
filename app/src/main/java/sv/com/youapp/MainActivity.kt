@@ -1,30 +1,18 @@
 package sv.com.youapp
 
 import android.app.ComponentCaller
-import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.edit
-import androidx.core.net.toUri
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import sv.com.youapp.auth.AuthManager
-import sv.com.youapp.core.ui.common.ColorDemoScreen
-import sv.com.youapp.core.ui.common.MainScaffold
-import sv.com.youapp.core.ui.theme.YouAppTheme
-import sv.com.youapp.feature.login.LoginScreen
+import sv.com.youapp.core.ui.navigation.AppNavHost
 
 class MainActivity: ComponentActivity() {
-    private lateinit var authManager: AuthManager
+    //private lateinit var authManager: AuthManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -34,23 +22,10 @@ class MainActivity: ComponentActivity() {
         }
         super.onCreate(savedInstanceState)
         handleAuthDeepLink(intent)
-        authManager = AuthManager(this)
+        //authManager = AuthManager(this)
 
         setContent {
-            val navController = rememberNavController()
-
-            NavHost(navController, startDestination = "login") {
-                composable("login") {
-                    val context = LocalContext.current
-                    YouAppTheme { }
-//                    LoginScreen {
-//                        openInBrowser(context)
-//                    }
-                }
-                composable("home") { MainScaffold { ColorDemoScreen() } }
-                composable("profile") { MainScaffold { } }
-                composable("settings") { MainScaffold { } }
-            }
+            AppNavHost()
         } // Content
     }
 
@@ -59,26 +34,6 @@ class MainActivity: ComponentActivity() {
         handleAuthDeepLink(intent)
     }
 
-    fun openInBrowser(context: Context) {
-       val uri: Uri = context.getString(R.string.base_uri).toUri().buildUpon()
-           .appendPath("oauth2")
-           .appendPath("login")
-           .build()
-        val cct = CustomTabsIntent.Builder()
-            .setShowTitle(true)
-            .build()
-        cct.intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_TASK)
-        try {
-            cct.launchUrl(context, uri)
-        } catch (_: ActivityNotFoundException) {
-            context.startActivity(
-                Intent(Intent.ACTION_VIEW, uri).apply {
-                    addCategory(Intent.CATEGORY_BROWSABLE)
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                }
-            )
-        }
-    }
 
     // HANDLES CALLBACK
     private fun handleAuthDeepLink(intent: Intent?) {

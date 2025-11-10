@@ -41,6 +41,7 @@ kotlin{
 }
 
 dependencies {
+  implementation(kotlin("reflect"))
     implementation(libs.androidx.core.ktx)
     // Compose
     implementation(libs.androidx.compose.ui)
