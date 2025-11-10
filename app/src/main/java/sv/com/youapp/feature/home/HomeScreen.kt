@@ -1,4 +1,4 @@
-package com.sv.youapp.app.ui.home
+package sv.com.youapp.feature.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import com.sv.youapp.app.R
+import sv.com.youapp.R
 
 @Composable
 fun Home() {

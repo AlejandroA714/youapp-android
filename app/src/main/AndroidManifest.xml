@@ -11,17 +11,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.YouApp.Splash">
         <activity
-            android:name=".activities.MainActivity"
+            android:name="sv.com.youapp.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <intent-filter android:label="oauth2">
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="youapp" android:host="oauth2"/>
+                <data android:scheme="https"
+                    android:host="wombed-intramuscular-lanell.ngrok-free.app"
+                    android:pathPrefix="/oauth2/redirect"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="youapp"
+                    android:host="oauth2" />
             </intent-filter>
         </activity>
     </application>

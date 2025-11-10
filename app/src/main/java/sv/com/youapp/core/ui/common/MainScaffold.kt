@@ -1,4 +1,4 @@
-package com.sv.youapp.app.ui
+package sv.com.youapp.core.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

@@ -1,7 +1,7 @@
-package com.sv.youapp.app.auth
+package sv.com.youapp.auth
 
 import android.content.Context
-import com.sv.youapp.app.R
+import android.content.Intent
 import androidx.core.net.toUri
 
 class AuthManager(private val context: Context) {
@@ -31,7 +31,7 @@ class AuthManager(private val context: Context) {
     }
 
     fun handleAuthResponse(
-        intent: android.content.Intent,
+        intent: Intent,
         onTokensReceived: (String?, String?) -> Unit
     ) {
 //        val resp = AuthorizationResponse.fromIntent(intent)

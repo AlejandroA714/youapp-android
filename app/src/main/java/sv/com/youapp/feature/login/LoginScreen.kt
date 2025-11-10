@@ -1,6 +1,5 @@
-package com.sv.youapp.app.ui.login
+package sv.com.youapp.feature.login
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,9 +20,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sv.youapp.app.R
-import com.sv.youapp.app.test.TextEngine
-import com.sv.youapp.app.ui.GradientButton
+import sv.com.youapp.R
+import sv.com.youapp.core.ui.common.GradientButton
 
 @Composable
 fun LoginScreen(onLoginClicked: () -> Unit) {
@@ -47,8 +45,6 @@ fun LoginScreen(onLoginClicked: () -> Unit) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(onClick = {
-            val ss: String = TextEngine().processFrom("HOLA MUNDO")
-            Log.i("LoginScreen","String from C ++ {ss}");
         }) {
             Text("Registrarse")
         }

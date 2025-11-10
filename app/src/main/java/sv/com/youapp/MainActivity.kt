@@ -1,6 +1,5 @@
-package com.sv.youapp.app.activities
+package sv.com.youapp
 
-import android.annotation.SuppressLint
 import android.app.ComponentCaller
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -11,29 +10,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.edit
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.sv.youapp.app.R
-import com.sv.youapp.app.auth.AuthManager
-import com.sv.youapp.app.ui.login.LoginScreen
 import androidx.core.net.toUri
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.sv.youapp.app.ui.ColorDemoScreen
-import com.sv.youapp.app.ui.MainScaffold
-import com.sv.youapp.app.ui.home.Home
+import sv.com.youapp.auth.AuthManager
+import sv.com.youapp.core.ui.common.ColorDemoScreen
+import sv.com.youapp.core.ui.common.MainScaffold
+import sv.com.youapp.core.ui.theme.YouAppTheme
+import sv.com.youapp.feature.login.LoginScreen
 
 class MainActivity: ComponentActivity() {
     private lateinit var authManager: AuthManager
@@ -51,11 +39,17 @@ class MainActivity: ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            NavHost(navController, startDestination = "home") {
-                composable("login") { LoginScreen{} }
+            NavHost(navController, startDestination = "login") {
+                composable("login") {
+                    val context = LocalContext.current
+                    YouAppTheme { }
+//                    LoginScreen {
+//                        openInBrowser(context)
+//                    }
+                }
                 composable("home") { MainScaffold { ColorDemoScreen() } }
-                composable("profile") { MainScaffold {  } }
-                composable("settings") { MainScaffold {  } }
+                composable("profile") { MainScaffold { } }
+                composable("settings") { MainScaffold { } }
             }
         } // Content
     }
@@ -68,14 +62,15 @@ class MainActivity: ComponentActivity() {
     fun openInBrowser(context: Context) {
        val uri: Uri = context.getString(R.string.base_uri).toUri().buildUpon()
            .appendPath("oauth2")
-           .appendPath("login").build()
+           .appendPath("login")
+           .build()
         val cct = CustomTabsIntent.Builder()
             .setShowTitle(true)
             .build()
         cct.intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
             cct.launchUrl(context, uri)
-        } catch (e: ActivityNotFoundException) {
+        } catch (_: ActivityNotFoundException) {
             context.startActivity(
                 Intent(Intent.ACTION_VIEW, uri).apply {
                     addCategory(Intent.CATEGORY_BROWSABLE)
