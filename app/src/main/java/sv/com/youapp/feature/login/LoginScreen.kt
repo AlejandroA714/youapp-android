@@ -60,14 +60,8 @@ fun LoginScreen() {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun PreviewLoginScreen() {
-    LoginScreen()
-}
-
 fun openInBrowser(context: Context) {
-    val uri: Uri = context.getString(R.string.base_uri).toUri().buildUpon()
+    val uri: Uri = ("https://" +  context.getString(R.string.base_uri)).toUri().buildUpon()
         .appendPath("oauth2")
         .appendPath("login")
         .build()
@@ -85,4 +79,10 @@ fun openInBrowser(context: Context) {
             }
         )
     }
+}
+
+@Composable
+@Preview(showBackground = true, showSystemUi = true)
+fun PreviewLoginScreen() {
+  LoginScreen()
 }

@@ -22,6 +22,7 @@ fun YouAppTheme(content: @Composable () -> Unit) {
             onBackground = colorResource(R.color.colorOnBackground),
             surface = colorResource(R.color.surface),
             onSurface = colorResource(R.color.colorOnSurface),
+            surfaceContainer = colorResource(R.color.surfaceContainer),
             error = colorResource(R.color.error),
             onError = colorResource(R.color.colorOnError)
         )
@@ -35,6 +36,7 @@ fun YouAppTheme(content: @Composable () -> Unit) {
             onBackground = colorResource(R.color.colorOnBackground),
             surface = colorResource(R.color.surface),
             onSurface = colorResource(R.color.colorOnSurface),
+            surfaceContainer = colorResource(R.color.surfaceContainer),
             error = colorResource(R.color.error),
             onError = colorResource(R.color.colorOnError)
         )

@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="https"
-                    android:host="wombed-intramuscular-lanell.ngrok-free.app"
+                    android:host="@string/base_uri"
                     android:pathPrefix="/oauth2/redirect"/>
             </intent-filter>
             <intent-filter>
