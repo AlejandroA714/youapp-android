@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,10 +14,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -27,41 +28,65 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
 import sv.com.youapp.R
 import sv.com.youapp.core.ui.common.GradientButton
+import sv.com.youapp.core.ui.common.LoadingGradientButton
+import sv.com.youapp.feature.login.data.LoginEvent
 
 @Composable
-fun LoginScreen() {
-    Column(Modifier.fillMaxSize()
-        .background(colorResource(id = R.color.background)),
+fun LoginScreen(viewModel: LoginViewModel) {
+    val uiState = viewModel.uiState
+    val context = LocalContext.current
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(colorResource(id = R.color.background)),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally)
+        horizontalAlignment = Alignment.CenterHorizontally
+    )
     {
-        val context = LocalContext.current
         Image(
             painterResource(R.drawable.ic_logo),
             contentDescription = "LOGO",
             modifier = Modifier.size(150.dp),
             contentScale = ContentScale.Fit
         )
-        Text(stringResource(R.string.bienvenida), style = MaterialTheme.typography.titleLarge,
-            color = colorResource(R.color.purple_text))
         Spacer(modifier = Modifier.height(16.dp))
-
-        GradientButton("Iniciar Sesion") {openInBrowser(context = context)}
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Button(onClick = {
-        }) {
-            Text("Registrarse")
+        Text(
+            stringResource(R.string.bienvenida),
+            style = MaterialTheme.typography.titleLarge,
+            color = colorResource(R.color.purple_text)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        LoadingGradientButton(uiState.loading, "Iniciar Session") {
+            viewModel.startLogin()
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
+        GradientButton("Registrarse") {
+            //TODO: REGISTRARSE
+        }
+        LaunchedEffect(Unit) {
+            viewModel.events.collect { event ->
+                when (event) {
+                    is LoginEvent.LoginSuccess -> doSomehting(event.sid)
+                    is LoginEvent.LoginStarted -> openInBrowser(context)
+                    is LoginEvent.LoginCancelled -> Toast
+                        .makeText(context, event.reason, Toast.LENGTH_LONG)
+                        .show()
+                }
+            }
+        }
     }
 }
 
+fun doSomehting(sid: String){
+    System.out.println("HOLA MUNDO")
+}
+
 fun openInBrowser(context: Context) {
-    val uri: Uri = ("https://" +  context.getString(R.string.base_uri)).toUri().buildUpon()
+    val uri: Uri = ("https://" + context.getString(R.string.base_uri)).toUri().buildUpon()
         .appendPath("oauth2")
         .appendPath("login")
         .build()
@@ -84,5 +109,5 @@ fun openInBrowser(context: Context) {
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
 fun PreviewLoginScreen() {
-  LoginScreen()
+    LoginScreen(viewModel())
 }
