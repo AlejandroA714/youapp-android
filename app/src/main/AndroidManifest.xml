@@ -12,7 +12,6 @@
         android:theme="@style/Theme.YouApp.Splash">
         <activity
             android:name="sv.com.youapp.MainActivity"
-            android:launchMode="singleTop"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

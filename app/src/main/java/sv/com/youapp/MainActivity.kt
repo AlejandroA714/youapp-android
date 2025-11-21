@@ -1,29 +1,23 @@
 package sv.com.youapp
 
-import android.app.ComponentCaller
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.content.edit
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dagger.hilt.android.AndroidEntryPoint
 import sv.com.youapp.core.ui.navigation.AppNavHost
 import sv.com.youapp.core.ui.theme.YouAppTheme
 import sv.com.youapp.feature.login.LoginScreen
 import sv.com.youapp.feature.login.LoginViewModel
-import sv.com.youapp.feature.login.data.LoginEvent
-import sv.com.youapp.feature.login.doSomehting
-import sv.com.youapp.feature.login.openInBrowser
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -32,11 +26,13 @@ class MainActivity : ComponentActivity() {
             setTheme(R.style.Theme_YouApp)
         }
         super.onCreate(savedInstanceState)
+        val model: LoginViewModel by viewModels()
         setContent {
+            val uiState by model.uiState.collectAsStateWithLifecycle()
             YouAppTheme {
-                if(!viewModel.uiState.isLoggedIn){
-                    LoginScreen(viewModel)
-                }else{
+                if (!uiState.isLoggedIn) {
+                    LoginScreen(model)
+                } else {
                     AppNavHost()
                 }
             }
@@ -46,12 +42,12 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.uiState.loading){
-            viewModel.cancelLogin()
-        }
+//        if (loginViewModel.uiState.value.loading){
+//            loginViewModel.cancelLogin()
+//        }
     }
 
-    override fun onNewIntent(intent: Intent, caller: ComponentCaller) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         handleAuthDeepLink(intent)
     }
@@ -69,7 +65,7 @@ class MainActivity : ComponentActivity() {
             val sid = data.getQueryParameter("sid")
             //TODO: DO REAL SESSION MANAGEMENT
             if (sid != null) {
-                viewModel.completeLogin(sid)
+                //loginViewModel.completeLogin(sid)
                 getSharedPreferences("auth", MODE_PRIVATE)
                     .edit {
                         putString("sid", sid)

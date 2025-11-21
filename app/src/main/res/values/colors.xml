@@ -12,7 +12,7 @@
     <color name="background">#2B1552</color>
     <color name="colorOnBackground">#FFFFFF</color>
 
-    <color name="surface">#3A1E70</color>
+    <color name="surface">#2B1552</color>
     <color name="colorOnSurface">#FFFFFF</color>
 
     <color name="surfaceContainer">#3A1E70</color>

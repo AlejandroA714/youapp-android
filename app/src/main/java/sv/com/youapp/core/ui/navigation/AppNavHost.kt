@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import sv.com.youapp.core.navigation.Routes
 import sv.com.youapp.core.ui.common.GradientButton
 import sv.com.youapp.core.ui.common.MainScaffold
 import sv.com.youapp.feature.home.Home

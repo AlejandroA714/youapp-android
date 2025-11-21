@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import sv.com.youapp.core.ui.navigation.Routes
+import sv.com.youapp.core.navigation.Routes
 import sv.com.youapp.core.ui.theme.YouAppTheme
 import sv.com.youapp.feature.home.Home
 

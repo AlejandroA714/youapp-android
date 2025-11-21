@@ -1,4 +1,4 @@
-package sv.com.youapp.core.ui.navigation
+package sv.com.youapp.core.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountBox

@@ -22,14 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
 import sv.com.youapp.R
 import sv.com.youapp.core.ui.common.GradientButton
 import sv.com.youapp.core.ui.common.LoadingGradientButton
@@ -42,7 +40,8 @@ fun LoginScreen(viewModel: LoginViewModel) {
     Column(
         Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.background)),
+            .background(MaterialTheme.colorScheme.background)
+                ,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     )
@@ -55,22 +54,22 @@ fun LoginScreen(viewModel: LoginViewModel) {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            stringResource(R.string.bienvenida),
+            stringResource(R.string.welcome),
             style = MaterialTheme.typography.titleLarge,
-            color = colorResource(R.color.purple_text)
+            color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(16.dp))
-        LoadingGradientButton(uiState.loading, "Iniciar Session") {
+        LoadingGradientButton(uiState.value.loading, stringResource(R.string.login)) {
             viewModel.startLogin()
         }
         Spacer(modifier = Modifier.height(8.dp))
-        GradientButton("Registrarse") {
+        GradientButton(stringResource(R.string.siginup)) {
             //TODO: REGISTRARSE
         }
         LaunchedEffect(Unit) {
             viewModel.events.collect { event ->
                 when (event) {
-                    is LoginEvent.LoginSuccess -> doSomehting(event.sid)
+                    is LoginEvent.LoginSuccess -> Unit
                     is LoginEvent.LoginStarted -> openInBrowser(context)
                     is LoginEvent.LoginCancelled -> Toast
                         .makeText(context, event.reason, Toast.LENGTH_LONG)
@@ -79,10 +78,6 @@ fun LoginScreen(viewModel: LoginViewModel) {
             }
         }
     }
-}
-
-fun doSomehting(sid: String){
-    System.out.println("HOLA MUNDO")
 }
 
 fun openInBrowser(context: Context) {
