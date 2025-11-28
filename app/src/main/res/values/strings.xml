@@ -3,4 +3,6 @@
     <string name="welcome">Bienvenido de nuevo</string>
     <string name="login">Iniciar Sesion</string>
     <string name="siginup">Registrarse</string>
+    <string name="login_stop">Login Cancelled</string>
+    <string name="logout">Good Bye!</string>
 </resources>

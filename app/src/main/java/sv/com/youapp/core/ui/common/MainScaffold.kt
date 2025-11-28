@@ -28,14 +28,14 @@ fun MainScaffold(navHost: NavHostController, content: @Composable () -> Unit) {
         bottomBar = {
             BottomAppBar {
                 NavigationBar {
-                    Routes.allRoutes
+                    Routes.appRoutes
                         .forEach { item ->
                             NavigationBarItem(
                                 selected = currentRoute == item.route,
                                 onClick = { navHost.navigate(item.route) },
                                 icon = {
                                     Icon(
-                                        imageVector = item.icon,
+                                        imageVector = item.icon!!,
                                         contentDescription = "Home",
                                         modifier = Modifier.size(32.dp),
                                     )

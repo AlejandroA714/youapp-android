@@ -1,62 +1,39 @@
 package sv.com.youapp.feature.login
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import sv.com.youapp.core.session.SessionManager
-import sv.com.youapp.feature.login.data.LoginEvent
-import sv.com.youapp.feature.login.data.LoginUiState
+import sv.com.youapp.core.events.GlobalEvent
+import sv.com.youapp.core.events.GlobalEventDispatcher
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val sessionManager: SessionManager
+    private val eventDispatcher: GlobalEventDispatcher
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(LoginUiState())
-    val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
-    private val _events = MutableSharedFlow<LoginEvent>()
-    val events: SharedFlow<LoginEvent> = _events.asSharedFlow()
+    private val _loading = MutableStateFlow(false)
+    val loading: StateFlow<Boolean> = _loading.asStateFlow()
 
-    init {
-        val sid:String? = sessionManager.getSession()
-        sid?.let { setLoggedIn(it) }
-    }
+    val events: SharedFlow<GlobalEvent> = eventDispatcher.events
     fun startLogin() {
-        setLoading(true)
-        viewModelScope.launch {
-            _events.emit(LoginEvent.LoginStarted(""))
-        }
+        _loading.value = true
+        eventDispatcher.emit(GlobalEvent.LoginStarted)
+       // _events.tryEmit(LoginEvent.LoginStarted(""))
     }
 
-    private fun setLoading(isLoading: Boolean) {
-        _uiState.update { it.copy(loading = isLoading) }
+    fun setLoading(isLoading: Boolean) {
+        _loading.value = isLoading
     }
 
-    private fun setLoggedIn(sid: String) {
-        _uiState.update { it.copy(isLoggedIn = true, loading = false) }
-    }
+
 
     fun cancelLogin() {
-        setLoading(false)
-        //uiState = uiState.copy(loading = false)
-        viewModelScope.launch {
-            _events.emit(LoginEvent.LoginCancelled("User Aborted Operation"))
-        }
+        _loading.value = false
+        eventDispatcher.emit(GlobalEvent.LoginCancelled("User ABORTED"))
     }
 
-    fun completeLogin(sid: String) {
-        //uiState = uiState.copy(isLoggedIn = true, loading = false)
-        viewModelScope.launch {
-            _events.emit(LoginEvent.LoginSuccess(sid))
-        }
-    }
 
 }

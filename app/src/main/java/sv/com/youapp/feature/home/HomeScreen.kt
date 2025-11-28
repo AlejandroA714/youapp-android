@@ -17,9 +17,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import sv.com.youapp.core.ui.activityViewModel
+import sv.com.youapp.core.ui.common.GradientButton
+import sv.com.youapp.core.vwm.AppViewModel
 
 @Composable
-fun Home() {
+fun Home(viewModel: AppViewModel = activityViewModel()) {
     val scheme = MaterialTheme.colorScheme
     Column(
         modifier = Modifier
@@ -35,6 +40,12 @@ fun Home() {
         ColorBox("Background", scheme.background, scheme.onBackground)
         ColorBox("Surface", scheme.surface, scheme.onSurface)
         ColorBox("Error", scheme.error, scheme.onError)
+        GradientButton("Click ME!") {
+            viewModel.viewModelScope.launch {
+                viewModel.logout()
+            }
+
+        }
     }
 }
 
