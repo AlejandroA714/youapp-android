@@ -36,17 +36,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        //handleAuthDeepLink(intent)
+        appViewModel.handleAuthDeepLink(intent, getString(R.string.base_uri))
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        appViewModel.handleAuthDeepLink(intent)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        //TODO: IF NOT LOGGED IN SET LOADING TO FALSE
-        //appViewModel.onActivityResumed()
+        appViewModel.handleAuthDeepLink(intent, getString(R.string.base_uri))
     }
 }
