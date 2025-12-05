@@ -23,7 +23,7 @@ fun RegisterScreen(loginVM: LoginViewModel = hiltViewModel()){
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-        val loading by loginVM.loading.collectAsStateWithLifecycle()
+        val loading by loginVM.loggingInProgress.collectAsStateWithLifecycle()
         Text(loading.toString())
     }
 }

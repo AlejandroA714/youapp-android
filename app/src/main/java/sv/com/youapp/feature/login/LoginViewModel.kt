@@ -16,17 +16,21 @@ class LoginViewModel @Inject constructor(
     private val toastService: ToastService,
     private val sessionManager: SessionManager
 ) : ViewModel() {
-    private val _loading = MutableStateFlow(false)
-    val loading: StateFlow<Boolean> = _loading.asStateFlow()
+    private val _loggingInProgress = MutableStateFlow(false)
+    val loggingInProgress: StateFlow<Boolean> = _loggingInProgress.asStateFlow()
 
+    private val _loginKind = MutableStateFlow(LoginKind.NONE)
+    val loginKind: StateFlow<LoginKind> = _loginKind.asStateFlow()
     fun startLogin() {
         setLoading(true)
+        _loginKind.value = LoginKind.NATIVE
         sessionManager.revokeSession()
     }
 
     fun cancelLogin() {
-        if(_loading.value){
+        if(_loggingInProgress.value){
             setLoading(false)
+            _loginKind.value = LoginKind.NONE
             val hasLogin = sessionManager.getSession() == null
             if(hasLogin){
                 toastService.show(R.string.login_stop, Toast.LENGTH_SHORT)
@@ -35,6 +39,21 @@ class LoginViewModel @Inject constructor(
     }
 
     fun setLoading(isLoading: Boolean) {
-        _loading.value = isLoading
+        _loggingInProgress.value = isLoading
+    }
+
+    fun startApple() {
+        _loginKind.value = LoginKind.APPLE
+        setLoading(true)
+    }
+
+    fun startGoogle() {
+        _loginKind.value = LoginKind.GOOGLE
+        setLoading(true)
+    }
+
+    fun star() {
+        setLoading(true)
+        _loginKind.value = LoginKind.DEBUG
     }
 }

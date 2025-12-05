@@ -1,9 +1,12 @@
 package sv.com.youapp.feature.login
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -17,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,6 +32,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import sv.com.youapp.R
 import sv.com.youapp.core.session.impl.SessionManagerImpl
+import sv.com.youapp.core.ui.common.AppleButton
+import sv.com.youapp.core.ui.common.GoogleButton
 import sv.com.youapp.core.ui.common.GradientButton
 import sv.com.youapp.core.ui.common.LoadingGradientButton
 import sv.com.youapp.core.ui.openInBrowser
@@ -36,11 +42,13 @@ import sv.com.youapp.core.ui.toast.impl.ToastServiceImpl
 @Composable
 fun LoginScreen(
     loginVM: LoginViewModel = hiltViewModel(),
-    onRegisterClick: () -> Unit
+    onRegisterClick: () -> Unit,
+    onRecoverClick: () -> Unit
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val loading by loginVM.loading.collectAsStateWithLifecycle()
+    val loginKind by loginVM.loginKind.collectAsStateWithLifecycle()
+    val loggingInProgress by loginVM.loggingInProgress.collectAsStateWithLifecycle()
     Column(
         Modifier
             .fillMaxSize()
@@ -62,14 +70,33 @@ fun LoginScreen(
             color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(16.dp))
-        LoadingGradientButton(loading, stringResource(R.string.login)) {
+        LoadingGradientButton(loginKind == LoginKind.NATIVE,!loggingInProgress, stringResource(R.string.login)) {
             loginVM.startLogin()
             openInBrowser(context)
         }
         Spacer(modifier = Modifier.height(16.dp))
         GradientButton(stringResource(R.string.siginup)) {
-            onRegisterClick()
+           loginVM.cancelLogin()
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            GoogleButton(loginKind == LoginKind.GOOGLE, !loggingInProgress){
+                loginVM.startGoogle()
+            }
+            AppleButton(loginKind == LoginKind.APPLE, !loggingInProgress){
+                loginVM.startApple()
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = stringResource(R.string.recover_pass),
+            modifier = Modifier.clickable {
+            onRecoverClick()
+            },
+            color = colorResource(R.color.purple_text),
+            style = MaterialTheme.typography.bodyMedium
+        )
+
         DisposableEffect(lifecycleOwner) {
             val observer = LifecycleEventObserver { _, event ->
                 if (event == Lifecycle.Event.ON_RESUME) {
@@ -84,12 +111,12 @@ fun LoginScreen(
     }
 }
 
-
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
+@SuppressLint("ViewModelConstructorInComposable")
 fun PreviewLoginScreen() {
     val vm = LoginViewModel(ToastServiceImpl(LocalContext.current),
         SessionManagerImpl(LocalContext.current)
     )
-    LoginScreen(vm) {}
+    LoginScreen(vm,{}) {}
 }

@@ -12,12 +12,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun GradientBox(content: @Composable () -> Unit){
+fun GradientBox(enabled: Boolean = true,content: @Composable () -> Unit){
     Box(
         modifier = Modifier
             .background(
                 brush = Brush.horizontalGradient(
-                    listOf(Color(0xFF6200EE), Color(0xFF03DAC5))
+                    if(enabled) listOf(Color(0xFF6200EE), Color(0xFF03DAC5)) else listOf(
+                        Color(0xFF6200EE).copy(alpha = 0.3f),
+                        Color(0xFF03DAC5).copy(alpha = 0.3f)
+                    )
                 ),
                 shape = CircleShape
             )

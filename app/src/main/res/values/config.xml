@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="base_uri">wombed-intramuscular-lanell.ngrok-free.app</string>
+    <string name="google_client">908465341562-5h3cd9op1a4vvlfurvh30djbk7vsug54.apps.googleusercontent.com</string>
 <!--    <string name="base_uri">http://192.168.1.24:7948</string>-->
     <string name="oauth2_client">oidc-client</string>
 </resources>

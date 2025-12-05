@@ -14,6 +14,8 @@ sealed class Routes(
 
     data object Register : Routes("register", null)
 
+    data object Recover: Routes("recover", null)
+
     data object Login : Routes("login", null)
     companion object {
         val appRoutes: List<Routes> = listOf(

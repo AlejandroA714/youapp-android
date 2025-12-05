@@ -17,10 +17,14 @@ fun AuthNavHost() {
     ) {
         composable(Routes.Login.route) {
             LoginScreen(
-                onRegisterClick = { navController.navigate("register") }
+                onRegisterClick = { navController.navigate("register") },
+                onRecoverClick = { navController.navigate("recover")}
             )
         }
         composable(Routes.Register.route) {
+            RegisterScreen()
+        }
+        composable(Routes.Recover.route) {
             RegisterScreen()
         }
     }

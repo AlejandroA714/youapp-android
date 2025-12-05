@@ -5,4 +5,5 @@
     <string name="siginup">Registrarse</string>
     <string name="login_stop">Login Cancelled</string>
     <string name="logout">Good Bye!</string>
+    <string name="recover_pass">Olvide mi contraseña</string>
 </resources>
