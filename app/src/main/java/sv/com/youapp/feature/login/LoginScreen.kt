@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -30,6 +31,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.launch
 import sv.com.youapp.R
 import sv.com.youapp.core.session.impl.SessionManagerImpl
 import sv.com.youapp.core.ui.common.AppleButton
@@ -79,13 +81,17 @@ fun LoginScreen(
            loginVM.cancelLogin()
         }
         Spacer(modifier = Modifier.height(16.dp))
+        val scope = rememberCoroutineScope()
         Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             GoogleButton(loginKind == LoginKind.GOOGLE, !loggingInProgress){
                 loginVM.startGoogle()
+            scope.launch {
+                val idToken = loginVM.getGoogleIdToken(context, context.getString(R.string.google_client))
+                println("HOLAAAA")
+                loginVM.cancelLogin()
             }
-            AppleButton(loginKind == LoginKind.APPLE, !loggingInProgress){
-                loginVM.startApple()
             }
+            AppleButton(loginKind == LoginKind.APPLE, enabled = false){}
         }
         Spacer(modifier = Modifier.height(16.dp))
         Text(

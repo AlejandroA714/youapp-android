@@ -68,6 +68,8 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     implementation(libs.androidx.hilt.navigation.compose)
+    // Google
+    implementation(libs.bundles.credentials.google)
 
     // Tests
     testImplementation(libs.junit)

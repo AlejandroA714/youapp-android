@@ -1,7 +1,15 @@
 package sv.com.youapp.feature.login
 
+import android.content.Context
 import android.widget.Toast
+import androidx.credentials.Credential
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
 import androidx.lifecycle.ViewModel
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -55,5 +63,43 @@ class LoginViewModel @Inject constructor(
     fun star() {
         setLoading(true)
         _loginKind.value = LoginKind.DEBUG
+    }
+
+    suspend fun getGoogleIdToken(
+        context: Context,
+        serverClientId: String
+    ): String? {
+        val credentialManager = CredentialManager.create(context)
+
+        // Sólo opción de Google, sin passkeys ni passwords.
+        val googleIdOption = GetGoogleIdOption.Builder()
+            .setServerClientId(serverClientId)
+            .setFilterByAuthorizedAccounts(false)
+            .build()
+
+        val request = GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
+
+        return try {
+            val result = credentialManager.getCredential(
+                context = context,
+                request = request
+            )
+
+            val credential: Credential = result.credential
+            if (credential is CustomCredential &&
+                credential.type == TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+            ) {
+                val googleIdTokenCredential =
+                    GoogleIdTokenCredential.createFrom(credential.data)
+                googleIdTokenCredential.idToken
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            println(e)
+            null
+        }
     }
 }
