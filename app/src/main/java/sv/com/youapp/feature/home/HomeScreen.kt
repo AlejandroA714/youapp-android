@@ -24,7 +24,7 @@ import sv.com.youapp.core.ui.common.GradientButton
 import sv.com.youapp.core.vwm.AppViewModel
 
 @Composable
-fun Home(viewModel: AppViewModel = activityViewModel()) {
+fun HomeScreen(viewModel: AppViewModel = activityViewModel()) {
     val scheme = MaterialTheme.colorScheme
     Column(
         modifier = Modifier

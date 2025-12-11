@@ -33,6 +33,9 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import sv.com.youapp.R
+import sv.com.youapp.core.navigation.LocalAppNavigator
+import sv.com.youapp.core.navigation.Recover
+import sv.com.youapp.core.navigation.Register
 import sv.com.youapp.core.session.impl.SessionManagerImpl
 import sv.com.youapp.core.ui.common.AppleButton
 import sv.com.youapp.core.ui.common.GoogleButton
@@ -41,14 +44,15 @@ import sv.com.youapp.core.ui.common.LoadingGradientButton
 import sv.com.youapp.core.ui.openInBrowser
 import sv.com.youapp.core.ui.toast.impl.ToastServiceImpl
 
+@SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun LoginScreen(
-    loginVM: LoginViewModel = hiltViewModel(),
-    onRegisterClick: () -> Unit,
-    onRecoverClick: () -> Unit
+    loginVM: LoginViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val navigator = LocalAppNavigator.current
+    // TODO: UNIFY???
     val loginKind by loginVM.loginKind.collectAsStateWithLifecycle()
     val loggingInProgress by loginVM.loggingInProgress.collectAsStateWithLifecycle()
     Column(
@@ -72,32 +76,37 @@ fun LoginScreen(
             color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(16.dp))
-        LoadingGradientButton(loginKind == LoginKind.NATIVE,!loggingInProgress, stringResource(R.string.login)) {
+        LoadingGradientButton(
+            loginKind == LoginKind.NATIVE,
+            !loggingInProgress,
+            stringResource(R.string.login)
+        ) {
             loginVM.startLogin()
             openInBrowser(context)
         }
         Spacer(modifier = Modifier.height(16.dp))
         GradientButton(stringResource(R.string.siginup)) {
-           loginVM.cancelLogin()
+            navigator.navigateTo(Register)
         }
         Spacer(modifier = Modifier.height(16.dp))
         val scope = rememberCoroutineScope()
         Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            GoogleButton(loginKind == LoginKind.GOOGLE, !loggingInProgress){
+            GoogleButton(loginKind == LoginKind.GOOGLE, !loggingInProgress) {
                 loginVM.startGoogle()
-            scope.launch {
-                val idToken = loginVM.getGoogleIdToken(context, context.getString(R.string.google_client))
-                println("HOLAAAA")
-                loginVM.cancelLogin()
+                scope.launch {
+                    val idToken =
+                        loginVM.getGoogleIdToken(context, context.getString(R.string.google_client))
+                    println("HOLAAAA")
+                    loginVM.cancelLogin()
+                }
             }
-            }
-            AppleButton(loginKind == LoginKind.APPLE, enabled = false){}
+            AppleButton(loginKind == LoginKind.APPLE, enabled = false) {}
         }
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(R.string.recover_pass),
             modifier = Modifier.clickable {
-            onRecoverClick()
+                navigator.navigateTo(Recover)
             },
             color = colorResource(R.color.purple_text),
             style = MaterialTheme.typography.bodyMedium
@@ -121,8 +130,9 @@ fun LoginScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @SuppressLint("ViewModelConstructorInComposable")
 fun PreviewLoginScreen() {
-    val vm = LoginViewModel(ToastServiceImpl(LocalContext.current),
+    val vm = LoginViewModel(
+        ToastServiceImpl(LocalContext.current),
         SessionManagerImpl(LocalContext.current)
     )
-    LoginScreen(vm,{}) {}
+    LoginScreen(vm)
 }

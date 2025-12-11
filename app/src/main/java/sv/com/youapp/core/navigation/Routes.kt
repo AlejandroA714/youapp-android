@@ -4,23 +4,23 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.ui.graphics.vector.ImageVector
+data object Home : DrawableRoute("home", Icons.Outlined.Home)
+data object Profile : DrawableRoute("profile", Icons.Outlined.AccountBox)
+data object Register : Route("register")
+data object Recover : Route("recover")
+data object Login : Route("login")
 
-sealed class Routes(
-    val route: String,
-    val icon: ImageVector?
-) {
-    data object Home : Routes("home", Icons.Outlined.Home)
-    data object Profile : Routes("profile", Icons.Outlined.AccountBox)
+val appRoutes: List<DrawableRoute> = listOf(
+    Home,
+    Profile
+)
 
-    data object Register : Routes("register", null)
+sealed class Route(
+    val route: String
+)
 
-    data object Recover: Routes("recover", null)
+sealed class DrawableRoute(
+    route: String,
+    val icon: ImageVector
+) : Route(route)
 
-    data object Login : Routes("login", null)
-    companion object {
-        val appRoutes: List<Routes> = listOf(
-            Home,
-            Profile
-        )
-    }
-}

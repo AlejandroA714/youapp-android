@@ -7,21 +7,21 @@ import sv.com.youapp.core.session.SessionManager
 private const val SID = "sid"
 private const val SESSION = "session"
 
-class SessionManagerImpl(context: Context): SessionManager {
-    private val prefs =context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
+class SessionManagerImpl(context: Context) : SessionManager {
+    private val prefs = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
 
     override fun createSession(sid: String) {
         prefs.edit {
-            putString(SID,sid)
+            putString(SID, sid)
         }
     }
 
     override fun getSession(): String? {
-       return prefs.getString(SID, null)
+        return prefs.getString(SID, null)
     }
 
     override fun revokeSession() {
-        prefs.edit{
+        prefs.edit {
             remove(SID)
         }
     }

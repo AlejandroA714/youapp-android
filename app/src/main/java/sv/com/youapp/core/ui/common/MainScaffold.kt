@@ -7,44 +7,46 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import sv.com.youapp.core.navigation.Routes
-import sv.com.youapp.core.ui.theme.YouAppTheme
-import sv.com.youapp.feature.home.Home
+import sv.com.youapp.core.navigation.LocalAppNavigator
+import sv.com.youapp.core.navigation.LocalCurrentRoute
+import sv.com.youapp.core.navigation.appRoutes
+import sv.com.youapp.core.ui.AppPreview
+import sv.com.youapp.core.ui.appViewModel
+import sv.com.youapp.feature.home.HomeScreen
 
 @Composable
-fun MainScaffold(navHost: NavHostController, content: @Composable () -> Unit) {
-    val navBackStackEntry by navHost.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+fun MainScaffold(content: @Composable () -> Unit) {
+    val navHost = LocalAppNavigator.current
+    val currentRoute = LocalCurrentRoute.current
     Scaffold(
         bottomBar = {
             BottomAppBar {
                 NavigationBar {
-                    Routes.appRoutes
+                    appRoutes
                         .forEach { item ->
                             NavigationBarItem(
                                 selected = currentRoute == item.route,
-                                onClick = { navHost.navigate(item.route) },
+                                onClick = { navHost.navigateTo(item) },
                                 icon = {
                                     Icon(
-                                        imageVector = item.icon!!,
+                                        imageVector = item.icon,
                                         contentDescription = "Home",
                                         modifier = Modifier.size(32.dp),
                                     )
                                 },
-//                              colors = NavigationBarItemDefaults.colors(
-//                                selectedIconColor = Color.White,
-//                                unselectedIconColor = Color.White.copy(alpha = 0.6f),
-//                                indicatorColor = Color.Transparent
-//                            )
+                              colors = NavigationBarItemDefaults.colors(
+                                selectedIconColor = Color.White,
+                                unselectedIconColor = Color.White.copy(alpha = 0.6f),
+                                indicatorColor = Color.Transparent
+                            )
                             )
                         }
                 }
@@ -60,7 +62,8 @@ fun MainScaffold(navHost: NavHostController, content: @Composable () -> Unit) {
 @Composable
 @Preview(showBackground = false, showSystemUi = true)
 fun PreviewMainScaffold() {
-    val navHost = rememberNavController()
-    YouAppTheme { MainScaffold(navHost) { Home() } }
+    AppPreview{
+        MainScaffold { HomeScreen(appViewModel(LocalContext.current)) }
+    }
 }
 
