@@ -4,11 +4,13 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import sv.com.youapp.core.authentication.AuthenticationManager
+import sv.com.youapp.core.authentication.impl.AuthenticationManagerImpl
 import sv.com.youapp.core.events.GlobalEventDispatcher
 import sv.com.youapp.core.events.impl.GlobalEventDispatcherImpl
+import sv.com.youapp.core.network.AuthenticationClient
 import sv.com.youapp.core.session.SessionManager
 import sv.com.youapp.core.session.impl.SessionManagerImpl
 import sv.com.youapp.core.ui.toast.ToastService
@@ -27,6 +29,14 @@ object SessionModule {
     @Singleton
     fun provideEventDispatcher(): GlobalEventDispatcher {
         return GlobalEventDispatcherImpl()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthenticationManager(@ApplicationContext context: Context,
+                                      httpClient: AuthenticationClient
+    ): AuthenticationManager {
+        return AuthenticationManagerImpl(context, httpClient)
     }
 
     @Provides

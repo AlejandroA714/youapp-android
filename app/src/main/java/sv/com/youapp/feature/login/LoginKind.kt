@@ -5,5 +5,4 @@ enum class LoginKind {
     NATIVE,
     GOOGLE,
     APPLE,
-    DEBUG
 }

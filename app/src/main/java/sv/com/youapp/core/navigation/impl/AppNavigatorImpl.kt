@@ -7,6 +7,8 @@ import sv.com.youapp.core.navigation.Route
 class AppNavigatorImpl(private val navHost: NavHostController) : AppNavigator {
 
     override fun navigateTo(route: Route) {
-        navHost.navigate(route.route)
+        navHost.navigate(route.route) {
+
+        }
     }
 }

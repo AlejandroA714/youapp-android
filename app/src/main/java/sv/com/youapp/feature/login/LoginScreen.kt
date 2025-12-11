@@ -33,9 +33,12 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import sv.com.youapp.R
+import sv.com.youapp.core.authentication.impl.AuthenticationManagerImpl
 import sv.com.youapp.core.navigation.LocalAppNavigator
 import sv.com.youapp.core.navigation.Recover
 import sv.com.youapp.core.navigation.Register
+import sv.com.youapp.core.network.AuthenticationClient
+import sv.com.youapp.core.network.MockAuthenticationClient
 import sv.com.youapp.core.session.impl.SessionManagerImpl
 import sv.com.youapp.core.ui.common.AppleButton
 import sv.com.youapp.core.ui.common.GoogleButton
@@ -52,9 +55,7 @@ fun LoginScreen(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val navigator = LocalAppNavigator.current
-    // TODO: UNIFY???
-    val loginKind by loginVM.loginKind.collectAsStateWithLifecycle()
-    val loggingInProgress by loginVM.loggingInProgress.collectAsStateWithLifecycle()
+    val uiState: LoginState by loginVM.uiState.collectAsStateWithLifecycle()
     Column(
         Modifier
             .fillMaxSize()
@@ -77,8 +78,8 @@ fun LoginScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
         LoadingGradientButton(
-            loginKind == LoginKind.NATIVE,
-            !loggingInProgress,
+            uiState.loginKind == LoginKind.NATIVE,
+            !uiState.loggingInProgress,
             stringResource(R.string.login)
         ) {
             loginVM.startLogin()
@@ -91,16 +92,10 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(16.dp))
         val scope = rememberCoroutineScope()
         Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            GoogleButton(loginKind == LoginKind.GOOGLE, !loggingInProgress) {
+            GoogleButton(uiState.loginKind == LoginKind.GOOGLE, !uiState.loggingInProgress) {
                 loginVM.startGoogle()
-                scope.launch {
-                    val idToken =
-                        loginVM.getGoogleIdToken(context, context.getString(R.string.google_client))
-                    println("HOLAAAA")
-                    loginVM.cancelLogin()
-                }
             }
-            AppleButton(loginKind == LoginKind.APPLE, enabled = false) {}
+            AppleButton(uiState.loginKind == LoginKind.APPLE, enabled = false) {}
         }
         Spacer(modifier = Modifier.height(16.dp))
         Text(
@@ -132,7 +127,8 @@ fun LoginScreen(
 fun PreviewLoginScreen() {
     val vm = LoginViewModel(
         ToastServiceImpl(LocalContext.current),
-        SessionManagerImpl(LocalContext.current)
+        SessionManagerImpl(LocalContext.current),
+        AuthenticationManagerImpl(LocalContext.current, MockAuthenticationClient())
     )
     LoginScreen(vm)
 }
