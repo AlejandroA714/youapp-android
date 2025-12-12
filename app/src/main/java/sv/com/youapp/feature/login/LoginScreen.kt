@@ -31,15 +31,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.launch
 import sv.com.youapp.R
 import sv.com.youapp.core.authentication.impl.AuthenticationManagerImpl
 import sv.com.youapp.core.navigation.LocalAppNavigator
 import sv.com.youapp.core.navigation.Recover
 import sv.com.youapp.core.navigation.Register
-import sv.com.youapp.core.network.AuthenticationClient
 import sv.com.youapp.core.network.MockAuthenticationClient
 import sv.com.youapp.core.session.impl.SessionManagerImpl
+import sv.com.youapp.core.ui.AppPreview
 import sv.com.youapp.core.ui.common.AppleButton
 import sv.com.youapp.core.ui.common.GoogleButton
 import sv.com.youapp.core.ui.common.GradientButton
@@ -90,7 +89,6 @@ fun LoginScreen(
             navigator.navigateTo(Register)
         }
         Spacer(modifier = Modifier.height(16.dp))
-        val scope = rememberCoroutineScope()
         Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             GoogleButton(uiState.loginKind == LoginKind.GOOGLE, !uiState.loggingInProgress) {
                 loginVM.startGoogle()
@@ -109,6 +107,7 @@ fun LoginScreen(
 
         DisposableEffect(lifecycleOwner) {
             val observer = LifecycleEventObserver { _, event ->
+                //TODO: IF GOOGLE SHOW TOAST
                 if (event == Lifecycle.Event.ON_RESUME) {
                     loginVM.cancelLogin()
                 }
@@ -128,7 +127,13 @@ fun PreviewLoginScreen() {
     val vm = LoginViewModel(
         ToastServiceImpl(LocalContext.current),
         SessionManagerImpl(LocalContext.current),
-        AuthenticationManagerImpl(LocalContext.current, MockAuthenticationClient())
+        AuthenticationManagerImpl(
+            LocalContext.current, MockAuthenticationClient(),
+            ToastServiceImpl(LocalContext.current)
+        )
     )
-    LoginScreen(vm)
+    AppPreview {
+        LoginScreen(vm)
+    }
+
 }

@@ -1,5 +1,6 @@
 [versions]
-agp = "8.13.1"
+agp = "8.13.2"
+ksp = "2.3.3"
 coreSplashscreen = "1.2.0"
 hiltNavigationCompose = "1.3.0"
 kotlin = "2.2.21"
@@ -19,6 +20,7 @@ coreKtx = "1.17.0"
 activityCompose = "1.12.1"
 lifecycle = "2.10.0"
 materialVersion = "1.13.0"
+moshiKotlinCodegen = "1.15.2"
 navigation = "2.9.6"
 
 # Test
@@ -72,6 +74,7 @@ androidx-browser = { group = "androidx.browser", name = "browser", version.ref =
 credentials-core = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
 credentials-play-services = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentials" }
 googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
+moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshiKotlinCodegen" }
 retrofit = { module = "com.squareup.retrofit2:retrofit" }
 retrofit-bom = { module = "com.squareup.retrofit2:retrofit-bom", version.ref = "retrofitBom" }
 
@@ -80,6 +83,7 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 
 [bundles]
 credentials-google = [

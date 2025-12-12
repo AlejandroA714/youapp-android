@@ -6,4 +6,6 @@
     <string name="login_stop">Login Cancelled</string>
     <string name="logout">Good Bye!</string>
     <string name="recover_pass">Olvide mi contraseña</string>
+    <string name="google_invalid_credential">¡Respuesta no Valida!</string>
+    <string name="google_failed">¡Ha ocurrido un error!</string>
 </resources>

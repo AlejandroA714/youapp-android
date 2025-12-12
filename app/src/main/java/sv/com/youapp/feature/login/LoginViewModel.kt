@@ -18,7 +18,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val toastService: ToastService,
     private val sessionManager: SessionManager,
-    private val authManager: AuthenticationManager
+    private val authManager: AuthenticationManager,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(LoginState(false, LoginKind.NONE))
 
@@ -27,23 +27,27 @@ class LoginViewModel @Inject constructor(
     private fun setLoading(isLoading: Boolean, loginKind: LoginKind) {
         _uiState.value = _uiState.value.copy(loggingInProgress = isLoading, loginKind = loginKind)
     }
+
     fun startLogin() {
         setLoading(true, LoginKind.NATIVE)
         sessionManager.revokeSession()
     }
+
     fun cancelLogin() {
-        if(_uiState.value.loggingInProgress){
+        if (_uiState.value.loggingInProgress) {
             setLoading(false, LoginKind.NONE)
             val hasLogin = sessionManager.getSession() == null
-            if(hasLogin){
+            if (hasLogin) {
                 toastService.show(R.string.login_stop, Toast.LENGTH_SHORT)
             }
         }
     }
+
     fun startGoogle() {
         setLoading(true, LoginKind.GOOGLE)
         viewModelScope.launch {
             val dd = authManager.getGoogleIdToken()
+            dd?.let { sessionManager.createSession(it) }
             cancelLogin()
         }
     }

@@ -34,9 +34,10 @@ object SessionModule {
     @Provides
     @Singleton
     fun provideAuthenticationManager(@ApplicationContext context: Context,
-                                      httpClient: AuthenticationClient
+                                      httpClient: AuthenticationClient,
+                                      toastService: ToastService
     ): AuthenticationManager {
-        return AuthenticationManagerImpl(context, httpClient)
+        return AuthenticationManagerImpl(context, httpClient, toastService)
     }
 
     @Provides

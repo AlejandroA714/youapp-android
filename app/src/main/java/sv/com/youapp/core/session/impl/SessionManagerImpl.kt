@@ -1,7 +1,12 @@
 package sv.com.youapp.core.session.impl
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.core.content.edit
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import sv.com.youapp.core.session.SessionManager
 
 private const val SID = "sid"
@@ -9,6 +14,14 @@ private const val SESSION = "session"
 
 class SessionManagerImpl(context: Context) : SessionManager {
     private val prefs = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
+
+    override val isLoggedIn: Flow<Boolean> = callbackFlow {
+        val emit = { trySend(!getSession().isNullOrBlank()) }
+        emit()
+        val l = SharedPreferences.OnSharedPreferenceChangeListener { _, k -> if (k == SID) emit() }
+        prefs.registerOnSharedPreferenceChangeListener(l)
+        awaitClose { prefs.unregisterOnSharedPreferenceChangeListener(l) }
+    }.distinctUntilChanged()
 
     override fun createSession(sid: String) {
         prefs.edit {

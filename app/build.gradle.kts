@@ -1,9 +1,9 @@
 plugins {
     alias(libs.plugins.hilt.android)
-    kotlin("kapt")
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.android.application)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -65,7 +65,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.androidx.hilt.navigation.compose)
     // Google
@@ -78,7 +78,8 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     // RetroFit
-    implementation(platform(libs.retrofit.bom))
     implementation(libs.retrofit)
+    ksp(libs.moshi.kotlin.codegen)
     implementation(libs.converter.moshi)
+    implementation(platform(libs.retrofit.bom))
 }
