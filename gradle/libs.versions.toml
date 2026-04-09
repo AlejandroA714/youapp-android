@@ -1,33 +1,33 @@
 [versions]
-agp = "8.13.2"
+agp = "9.1.0"
 ksp = "2.3.3"
 coreSplashscreen = "1.2.0"
 hiltNavigationCompose = "1.3.0"
-kotlin = "2.2.21"
-hilt = "2.57.2"
-credentials = "1.5.0"
-googleid = "1.1.1"
+kotlin = "2.3.20"
+hilt = "2.59.2"
+credentials = "1.6.0"
+googleid = "1.2.0"
 
 # Compose UI + Material3
 #
-compose = "1.10.0"
+compose = "1.10.6"
 material= "1.4.0"
 composeCompiler = "1.5.3"
 
 # Base AndroidX
 #
-coreKtx = "1.17.0"
-activityCompose = "1.12.1"
+coreKtx = "1.18.0"
+activityCompose = "1.13.0"
 lifecycle = "2.10.0"
 materialVersion = "1.13.0"
 moshiKotlinCodegen = "1.15.2"
-navigation = "2.9.6"
+navigation = "2.9.7"
 
 # Test
 #
 junit = "4.13.2"
 androidxJunit = "1.3.0"
-browser = "1.9.0"
+browser = "1.10.0"
 retrofitBom = "3.0.0"
 
 [libraries]

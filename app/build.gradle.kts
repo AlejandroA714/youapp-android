@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.ApplicationExtension
+
 plugins {
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.android)
@@ -6,7 +8,7 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-android {
+extensions.configure<ApplicationExtension> {
     compileSdk = 36
     namespace = "sv.com.youapp"
 
